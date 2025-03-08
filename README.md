@@ -8,7 +8,7 @@ Conway's Game of Life is a classic cellular automaton devised by British mathema
 * In all other cases, a cell dies or remains dead.
 
 # ArchLinux instructions.
-You will need to make sure SDL3, SDL3_image, SDL3_ttf and SDL3_mixer is installed.
+You will need to make sure SDL3, SDL3_image, and SDL3_ttf is installed.
 ```
 sudo pacman -S --needed base-devel sdl3
 ```
