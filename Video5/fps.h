@@ -18,7 +18,6 @@ void fps_free(struct Fps **fps);
 void fps_display_toggle(struct Fps *f);
 void fps_increase_speed(struct Fps *f);
 void fps_decrease_speed(struct Fps *f);
-double fps_duration(const struct Fps *f);
 void fps_update(struct Fps *f);
 
 #endif

@@ -54,8 +54,6 @@ void fps_decrease_speed(struct Fps *f) {
     }
 }
 
-double fps_duration(const struct Fps *f) { return f->target_duration; }
-
 Uint64 fps_time_since(Uint64 last_time, Uint64 *new_last_time) {
     Uint64 current_time = SDL_GetTicks();
     Uint64 elapsed_time = 0;

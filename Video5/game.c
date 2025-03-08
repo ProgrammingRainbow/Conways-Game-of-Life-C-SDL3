@@ -9,7 +9,7 @@ void game_draw(const struct Game *g);
 bool game_new(struct Game **game) {
     *game = calloc(1, sizeof(struct Game));
     if (*game == NULL) {
-        fprintf(stderr, "Error in calloc of new game.\n");
+        fprintf(stderr, "Error in Calloc of New Game.\n");
         return false;
     }
     struct Game *g = *game;
@@ -21,7 +21,7 @@ bool game_new(struct Game **game) {
         return false;
     }
 
-    srand((Uint32)time(NULL));
+    srand((unsigned int)time(NULL));
 
     if (!board_new(&g->board, g->renderer)) {
         return false;
@@ -36,14 +36,23 @@ bool game_new(struct Game **game) {
 
 void game_free(struct Game **game) {
     if (*game) {
-        fps_free(&(*game)->fps);
-        board_free(&(*game)->board);
+        struct Game *g = *game;
 
-        SDL_DestroyRenderer((*game)->renderer);
-        (*game)->renderer = NULL;
+        if (g->fps) {
+            fps_free(&g->fps);
+        }
+        if (g->board) {
+            board_free(&g->board);
+        }
 
-        SDL_DestroyWindow((*game)->window);
-        (*game)->window = NULL;
+        if (g->renderer) {
+            SDL_DestroyRenderer(g->renderer);
+            g->renderer = NULL;
+        }
+        if (g->window) {
+            SDL_DestroyWindow(g->window);
+            g->window = NULL;
+        }
 
         SDL_Quit();
 
@@ -72,20 +81,23 @@ void game_events(struct Game *g) {
             case SDL_SCANCODE_ESCAPE:
                 g->is_running = false;
                 break;
+            case SDL_SCANCODE_R:
+                board_reset(g->board);
+                break;
+            case SDL_SCANCODE_C:
+                board_clear(g->board);
+                break;
             case SDL_SCANCODE_SPACE:
                 game_toggle_pause(g);
+                break;
+            case SDL_SCANCODE_F:
+                fps_display_toggle(g->fps);
                 break;
             case SDL_SCANCODE_UP:
                 fps_increase_speed(g->fps);
                 break;
             case SDL_SCANCODE_DOWN:
                 fps_decrease_speed(g->fps);
-                break;
-            case SDL_SCANCODE_R:
-                board_reset(g->board);
-                break;
-            case SDL_SCANCODE_C:
-                board_clear(g->board);
                 break;
             default:
                 break;
